@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import Moviedata from './Moviedata';
+import { Link } from 'react-router-dom'
 
-const Addmovie = () => {
+const Addmovie = (props) => {
     const [addmovie, setAddmovie] = useState({})
 
     var handleChange = (e) => {
            setAddmovie({...addmovie, [e.target.name] : e.target.value});
-        }
-
-     var handleSubmit= (e) => {
-            e.preventDefault();
-     }       
+        }      
     return(
-        console.log(),
+      console.log(props),
         <div>
             <h1>In AddMovieDetails</h1>
            <form>
@@ -28,12 +24,15 @@ const Addmovie = () => {
                <input type='text' placeholder='enter Year Of Release' name="YearOfRelease" onChange={(e)=>handleChange(e)}/> <br></br>
                <label>Language</label>
                <input type='text' placeholder='enter Language' name="Language" onChange={(e)=>handleChange(e)}/> <br></br>
-
-               <button type='submit' onClick={(e) => handleSubmit(e)}>Submit Details</button>
            </form>
           {
-              (Object.keys(addmovie).length===6) ? <Moviedata datafromadd={addmovie}/> : null
-          }
+            <Link to={{
+              pathname: '/',
+              state: {
+              fromAddmovie: addmovie
+                  }
+            }}><button>Add Data</button></Link>
+          } 
         </div>
     )
     }
