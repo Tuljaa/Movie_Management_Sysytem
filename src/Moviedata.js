@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const Moviedata = (props) => {
 
   const [data,setdata] = useState({
-    initialdata : [                              
+    collection : [                              
       { 
     MovieID:1,
     MovieName:"A",
@@ -29,30 +29,24 @@ const Moviedata = (props) => {
         YearOfRelease:3,
         Language:"D2"
          }
-    ],
-     collection :[]  
+    ] 
   })
 
   useEffect(() => {
     if(props.location.state!==undefined){
-      setdata({...data, collection : props.location.state.fromAddmovie})
+      var newdata=props.location.state.fromAddmovie;
+      setdata({collection : [...data.collection , newdata]})
     }
-  }, [data.collection])
+  }, [])
 
   const removeMovie = (key) => {
-   console.log("removing",key);
-    var copydata = [...data.initialdata];
-    console.log(copydata);
-    copydata.splice(key,1);
-    console.log(copydata);
-    
-    setdata({collection: data.collection,initialdata:copydata});
-    
+    var copydata = [...data.collection];
+    copydata.splice(key,1);  
+    setdata({collection:copydata}); 
   }
    
 return (  
       console.log((data)),
-      
       <div>
     {
       Object.keys(props.match.params).length===0 ?  
@@ -62,49 +56,37 @@ return (
             <Link to={{pathname: '/addMovie'}}><button>Add Data</button></Link>
           } 
        {
-         Object.keys(data.initialdata).map( (index) => {
+         Object.keys(data.collection).map( (index) => {
            return (
              <div key={index}>
-             <li > {data.initialdata[index].MovieID }</li>
-             <li > {data.initialdata[index].MovieName }</li>
-             <li > {data.initialdata[index].LeadActor }</li>
-             <li > {data.initialdata[index].LeadActrees }</li>
-             <li > {data.initialdata[index].YearOfRelease }</li>
-             <li > {data.initialdata[index].Language }</li>
+             <li > {data.collection[index].MovieID }</li>
+             <li > {data.collection[index].MovieName }</li>
+             <li > {data.collection[index].LeadActor }</li>
+             <li > {data.collection[index].LeadActrees }</li>
+             <li > {data.collection[index].YearOfRelease }</li>
+             <li > {data.collection[index].Language }</li>
               <hr></hr>
              </div>
            )
          })
-       }
-       {
-         (data.collection).length!==0 ? 
-          <div>
-          <li > {data.collection.MovieID }</li>
-          <li > {data.collection.MovieName }</li>
-          <li > {data.collection.LeadActor }</li>
-          <li > {data.collection.LeadActrees }</li>
-          <li > {data.collection.YearOfRelease }</li>
-          <li > {data.collection.Language }</li>   
-          </div>  : null
        }
        </div>  :  
        
        <div>
             <h1>Movie Details of MovieID : {props.match.params.id} </h1>
           {
-            console.log(data),
-          Object.keys(data.initialdata).map( (index) => {
+          Object.keys(data.collection).map( (index) => {
             return (
               <div key={index}>
                 {
-                  parseInt(props.match.params.id) === data.initialdata[index].MovieID  ?
+                  parseInt(props.match.params.id) === data.collection[index].MovieID  ?
                   <div>
-                      <li > {data.initialdata[index].MovieID }</li>
-                      <li > {data.initialdata[index].MovieName }</li>
-                      <li > {data.initialdata[index].LeadActor }</li>
-                      <li > {data.initialdata[index].LeadActrees }</li>
-                      <li > {data.initialdata[index].YearOfRelease }</li>
-                      <li > {data.initialdata[index].Language }</li>
+                      <li > {data.collection[index].MovieID }</li>
+                      <li > {data.collection[index].MovieName }</li>
+                      <li > {data.collection[index].LeadActor }</li>
+                      <li > {data.collection[index].LeadActrees }</li>
+                      <li > {data.collection[index].YearOfRelease }</li>
+                      <li > {data.collection[index].Language }</li>
                      <Link to={{ pathname: '/'}}>
                       <button value={index} onClick={()=>removeMovie(index)}>Delete{index}</button>
                       </Link>
