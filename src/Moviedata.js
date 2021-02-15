@@ -45,7 +45,9 @@ const Moviedata = (props) => {
     console.log(copydata);
     copydata.splice(key,1);
     console.log(copydata);
-    setdata({...data.initialdata,copydata});
+    
+    setdata({collection: data.collection,initialdata:copydata});
+    
   }
    
 return (  
@@ -90,6 +92,7 @@ return (
        <div>
             <h1>Movie Details of MovieID : {props.match.params.id} </h1>
           {
+            console.log(data),
           Object.keys(data.initialdata).map( (index) => {
             return (
               <div key={index}>
@@ -102,15 +105,15 @@ return (
                       <li > {data.initialdata[index].LeadActrees }</li>
                       <li > {data.initialdata[index].YearOfRelease }</li>
                       <li > {data.initialdata[index].Language }</li>
+                     <Link to={{ pathname: '/'}}>
                       <button value={index} onClick={()=>removeMovie(index)}>Delete{index}</button>
+                      </Link>
                   </div> : null
                 }
               </div>
             )
           })    
-        } 
-  
-         
+        }     
  </div>     
     }
       </div>
